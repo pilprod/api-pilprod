@@ -17,10 +17,12 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-// ?
+// Build path
 const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.json());
 app.use(express.static(buildPath));
+// Share "/public/*" folder
+app.use(express.static('public'));
 
 // Set Header
 app.use(function (req, res, next) {
@@ -153,9 +155,6 @@ app.post('/technobox/form/send', function (req, res) {
         });
     }
 });
-
-// Share "/public" folder
-app.use(express.static('public'));
 
 app.listen(port, () => {
     console.log(`Приложение запущено. Адрес: http://localhost:${port}`)
