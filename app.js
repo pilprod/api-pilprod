@@ -45,6 +45,56 @@ app.get('/pilprod/form', function (req, res) {
     res.send('Для отправки данных нужно сделать POST-запрос на /pilprod/form/send');
 });
 
+app.get('/pilprod/form/send', function (req, res) {
+    res.send('Для отправки данных нужно сделать POST-запрос');
+});
+
+app.post('/pilprod/form/send', function (req, res) {
+    try {
+
+        const {
+            name = '',
+            phone = '',
+            message = ''
+        } = req.body
+
+        const mailOptions = {
+            from: process.env.MAIL_FROM_NAME + process.env.MAIL_FROM_EMAIL,
+            to: process.env.MAIL_TO_PILPROD,
+            subject: process.env.MAIL_SUBJECT_PILPROD,
+            html: `
+            <head>
+                <meta charset="utf-8">
+            </head>
+            <h3>Данные клиента</h3>
+            <ul class="list-group">
+                <li>Имя: ${name}</li>
+                <li>Номер телефона: ${phone}</li>
+                <li>Сообщение: ${message}</li>
+            </ul>
+            `,
+        };
+        transporter.sendMail(mailOptions, function (err, info) {
+            if (err) {
+                res.status(500).send({
+                    success: false,
+                    message: 'Что-то пошло не так! Повторите попытку позже.'
+                });
+            } else {
+                res.send({
+                    success: true,
+                    message: 'Спасибо! Скоро мы свяжемся с вами.'
+                });
+            }
+        });
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: 'Что-то пошло не так! Повторите попытку позже.'
+        });
+    }
+});
+
 // TechnoBOX API Section
 app.get('/technobox', function (req, res) {
     res.send('API для TechnoBox');
@@ -69,8 +119,8 @@ app.post('/technobox/form/send', function (req, res) {
 
         const mailOptions = {
             from: process.env.MAIL_FROM_NAME + process.env.MAIL_FROM_EMAIL,
-            to: process.env.MAIL_TO,
-            subject: process.env.MAIL_SUBJECT,
+            to: process.env.MAIL_TO_TECHNOBOX67,
+            subject: process.env.MAIL_SUBJECT_TECHNOBOX67,
             html: `
             <head>
                 <meta charset="utf-8">
