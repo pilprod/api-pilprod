@@ -1,7 +1,7 @@
 {
   "name": "api-pilprod",
-  "version": "0.1.0",
-  "description": "Сервисы API NodeJS (PILPROD)",
+  "version": "1.0.0",
+  "description": "Сервисы API Express Node.JS (PILPROD)",
   "main": "app.js",
   "scripts": {
     "dev": "node -r dotenv/config app.js dotenv_config_path=.env.development.local",
