@@ -1,0 +1,10 @@
+.idea
+.git
+.gitignore
+node_modules
+# lock files
+package-lock.json
+yarn.lock
+# env file
+.env
+.env.development.local
