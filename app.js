@@ -1,69 +1,18 @@
-var express = require('express'),
-    // const path = require('path'),
-    // const dotenv = require('dotenv').config()
-    const cors = require('cors'),
-    const nodemailer = require('nodemailer'),
-    const routes = require('./routes');
+const express = require('express');
+const cors = require('cors');
+const nodemailer = require('nodemailer');
+const routes = require('./routes');
+// const path = require('path'),
+// const dotenv = require('dotenv').config();
 var app = express()
+var host = process.env.HOST
 var port = process.env.PORT
 
-//
+app.use('/', routes)
 app.use(express.static('public'));
-//
 
-app.get('/', (req, res) => {
-    res.send('<div> GO to <a href="/get">"/get"</a>, <a href="/post">"/post"</a>, <a href="/put">"/put"</a>, <a href="/delete">"/delete"</a> </div>')
-    res.json({ message: 'GO to "/get", "/post", "/put", "/delete"' })
-    console.info('GO to "/get", "/post", "/put", "/delete"')
-});
+app.listen(port, host, () => console.log(`Приложение запущено. Адрес: http://${host}:${port}`));
 
-app.get('/get', (req, res) => {
-    res.send('Это GET, request at /get')
-    res.json({ message: 'Это GET, request at /get' })
-    console.info("Это GET, request at /get")
-});
-
-app.get('/post', (req, res) => {
-    res.send('Это POST, request at /post')
-    res.json({ message: 'Это POST, request at /post' })
-    console.info("Это POST, request at /post")
-});
-
-app.get('/put', (req, res) => {
-    res.send('Это PUT, request at /put')
-    res.json({ message: 'Это PUT, request at /put' })
-    console.info("Это PUT, request at /put")
-});
-
-app.get('/delete', (req, res) => {
-    res.send('Это DELETE, request at /delete')
-    res.json({ message: 'Это DELETE, request at /delete' })
-    console.info("Это DELETE, request at /delete")
-});
-
-app.post('/post', (req, res) => {
-    console.info("Это POST, request at /post")
-});
-
-app.put('/put', (req, res) => {
-    console.info("Это PUT, request at /put")
-});
-
-app.delete('/delete', (req, res) => {
-    console.info("Это DELETE, request at /delete")
-});
-
-app.use((req, res, next) => {
-    res.status(404).send('Error 404. Page not found!')
-});
-
-app.use((err, req, res, next) => {
-    console.error(err.stack)
-    res.status(500).send('Error 500. Something broke!')
-});
-
-app.listen(port);
-console.log(`Приложение запущено. Адрес: http://localhost:${port}`);
 
 
 // app.use(express.static('public'))
