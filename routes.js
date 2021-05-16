@@ -6,6 +6,8 @@ router
     .route('/')
     .get((req, res) => {
         var answer = '/'
+            // res.set('Content-Type', 'text/plain')
+        res.send(`'${process.env.WELCOME_TEXT}'`)
         return res.json({ message: answer })
     });
 
