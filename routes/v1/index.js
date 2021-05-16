@@ -1,14 +1,14 @@
 const express = require('express'),
     router = express.Router(),
-    v1Routes = require('./routes/v1')
+    formsRoutes = require('./forms.routes')
 
 router
     .route('/')
     .get((req, res) => {
-        var answer = '/'
+        var answer = '/v1'
         return res.json({ message: answer })
     });
 
-router.use('/v1', v1Routes)
+router.use('/form', formsRoutes)
 
 module.exports = router
