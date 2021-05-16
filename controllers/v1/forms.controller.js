@@ -1,9 +1,7 @@
-const e = require('cors');
+const express = require('express');
 const nodemailer = require('nodemailer');
 
 class FormsController {
-    email = "p";
-
     getForms(req, res) {
         if (req.query.send) {
             var send = req.query.send
@@ -32,7 +30,7 @@ class FormsController {
             }
             var answer = 'Use POST!'
             return res.json({
-                message: answer,
+                // message: answer,
                 email: toEmail,
                 subject: subject,
                 date: newDate,
@@ -44,8 +42,8 @@ class FormsController {
         }
     };
     async sendForms(req, res) {
-        if (req.params.id = "send") {
-
+        var send = req.query.send
+        if (req.query.send) {
             var transporter = nodemailer.createTransport({
                 host: process.env.MAIL_HOST,
                 port: process.env.MAIL_PORT,
@@ -56,10 +54,10 @@ class FormsController {
                 },
             });
 
-            const { name = '', phone = '' } = req.body.contacts
-            const { message = '' } = req.body
+            var { name = '', phone = '' } = req.body.contacts
+            var { message = '' } = req.body
 
-            const date = new Date()
+            var date = new Date()
             const dateOptions = {
                 year: 'numeric',
                 month: 'long',
@@ -67,16 +65,32 @@ class FormsController {
                 // weekday: 'long' // День недели
             };
 
-            this.from = process.env.MAIL_FROM_NAME + process.env.MAIL_FROM_EMAIL
-            this.toEmail = 'pilprod@yandex.ru'
-            this.subject = 'Заявка от ***'
-            this.date = date.toLocaleDateString('ru-RU', dateOptions)
-            this.time = date.toLocaleTimeString('ru-RU')
+            var fromEmail = process.env.MAIL_FROM_NAME + process.env.MAIL_FROM_EMAIL
+            if (send === 'ww2.pilprod.com') {
+                var toEmail = 'pilprod@yandex.ru'
+                var fromSubject = 'Заявка от ' + send
+                var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
+                var currentTime = date.toLocaleTimeString('ru-RU')
+            } else if (send === 'www.pilprod.com') {
+                var toEmail = 'contact@pilprod.com'
+                var fromSubject = 'Заявка от ' + send
+                var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
+                var currentTime = date.toLocaleTimeString('ru-RU')
+            } else if (send === 'www.technobox67.ru') {
+                var toEmail = 'technobox67@yandex.ru'
+                var fromSubject = 'Заявка от ' + send
+                var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
+                var currentTime = date.toLocaleTimeString('ru-RU')
+            } else {
+                return res
+                    .status(400)
+                    .send({ message: 'Bad request. Check value of "send"' })
+            }
 
             const mailOptions = {
-                from: this.from,
-                to: this.toEmail,
-                subject: this.subject,
+                from: fromEmail,
+                to: toEmail,
+                subject: fromSubject,
                 html: `
                         <head>
                             <meta charset="utf-8">
@@ -92,8 +106,8 @@ class FormsController {
                         </ul>
                         <h4>Доп.информация:</h4>
                         <ul class="list-group">
-                            <li>Дата: ${this.date}</li>
-                            <li>Время: ${this.time}</li>
+                            <li>Дата: ${currentDate}</li>
+                            <li>Время: ${currentTime}</li>
                         </ul>
                         `,
             };
