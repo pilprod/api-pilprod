@@ -45,18 +45,21 @@ class FormsController {
             };
 
             if (origin === 'https://ww2.pilprod.com') {
+                var originDomain = origin.replace('https://', '')
                 var toEmail = 'pilprod@yandex.ru'
-                var fromSubject = 'Заявка от ' + origin
+                var fromSubject = 'Заявка от ' + originDomain
                 var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
                 var currentTime = date.toLocaleTimeString('ru-RU')
             } else if (origin === 'https://www.pilprod.com') {
+                var originDomain = origin.replace('https://', '')
                 var toEmail = 'contact@pilprod.com'
-                var fromSubject = 'Заявка от ' + origin
+                var fromSubject = 'Заявка от ' + originDomain
                 var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
                 var currentTime = date.toLocaleTimeString('ru-RU')
             } else if (origin === 'https://www.technobox67.ru') {
+                var originDomain = origin.replace('https://', '')
                 var toEmail = 'technobox67@yandex.ru'
-                var fromSubject = 'Заявка от ' + origin
+                var fromSubject = 'Заявка от ' + originDomain
                 var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
                 var currentTime = date.toLocaleTimeString('ru-RU')
             } else {
