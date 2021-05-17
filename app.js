@@ -8,30 +8,26 @@ var host = process.env.HOST
 var port = process.env.PORT
 
 // Enable CORS
-var allowDomain = ['https://www.pilprod.com', 'https://ww2.technobox67.ru']
-var corsOptionsDelegate = function (req, callback) {
-    var corsOptions;
-    if (allowDomain.indexOf(req.header('Origin')) !== -1) {
-      corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
-    } else {
-      corsOptions = { origin: false } // disable CORS for this request
-    }
-    callback(null, corsOptions) // callback expects two parameters: error and options
-}
-app.options('/v2', cors(corsOptionsDelegate)) // enable pre-flight request for DELETE request
+// var allowedOrigins = ['https://www.pilprod.com',
+//                       'https://www.technobox67.ru'];
+
+// app.use(cors({origin: function(origin, callback) {
+//       // allow requests with no origin 
+//       // (like mobile apps or curl requests)
+//       if(!origin) return callback(null, true);
+//       if(allowedOrigins.indexOf(origin) === -1){
+//         var msg = 'The CORS policy for this site does not ' +
+//                   'allow access from the specified Origin.';
+//         return callback(new Error(msg), false);
+//       }
+//       return callback(null, true);
+//     }
+// }))
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.set('title', 'API PILPROD')
-
-// app.use(function(req, res, next) {
-//     res.setHeader("Access-Control-Allow-Headers", "Accept, Accept-Language, Content-Type, X-Requested-With, Authorization, Origin");
-//     res.setHeader("Access-Control-Allow-Origin", "*");
-//     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
-//     res.setHeader("Access-Control-Allow-Credentials", true);
-//     next();
-// });
 
 app.use('/', routes)
 
