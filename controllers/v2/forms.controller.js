@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer');
 
 class FormsController {
     getForms(req, res) {
-        if (req.query.send === mail) {
+        if (req.query.send === 'mail') {
             return res.json({
                 POST: {
                     contacts: {
@@ -32,7 +32,7 @@ class FormsController {
             },
         });
         
-        if (req.query.send === mail) {
+        if (req.query.send === 'mail') {
             var origin = req.headers['origin']
             var userAgent = req.headers['user-agent']
 
