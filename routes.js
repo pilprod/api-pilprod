@@ -5,14 +5,12 @@ const express = require('express'),
 router
     .route('/')
     .get((req, res, next) => {
-        // var answer = '/'
         res.setHeader("Access-Control-Allow-Headers", "Accept, Accept-Language, Content-Type, X-Requested-With, Authorization, Origin");
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
         res.setHeader("Access-Control-Allow-Credentials", true);
         next();
         return res.status(200).send(`'${process.env.WELCOME_TEXT}'`)
-            // return res.json({ message: answer })
     });
 
 router.use('/v1', v1Routes)
