@@ -5,11 +5,11 @@ const express = require('express'),
 router
     .route('/')
     .get((req, res, next) => {
-        res.setHeader("Access-Control-Allow-Headers", "Accept, Accept-Language, Content-Type, X-Requested-With, Authorization, Origin");
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
-        res.setHeader("Access-Control-Allow-Credentials", true);
-        next();
+        // res.setHeader("Access-Control-Allow-Headers", "Accept, Accept-Language, Content-Type, X-Requested-With, Authorization, Origin");
+        // res.setHeader("Access-Control-Allow-Origin", "*");
+        // res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+        // res.setHeader("Access-Control-Allow-Credentials", true);
+        // next();
         return res.status(200).send(`${process.env.WELCOME_TEXT}`)
     });
 
