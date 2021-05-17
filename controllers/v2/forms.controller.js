@@ -84,7 +84,7 @@ class FormsController {
                             <p>Сообщение: ${message}</p>
                         </ul>
                         <h2>Доп.информация:</h2>
-                        <p>Дата отправки: ${currentDate} ${currentTime}</p>
+                        <p>Дата отправки: ${currentDate}<br>Время отправки: ${currentTime}</p>
                         <p>Данные об устройстве пользователя:<br>${userAgent}</p>
                         `,
             };
