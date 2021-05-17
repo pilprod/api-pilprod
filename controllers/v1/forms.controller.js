@@ -7,6 +7,7 @@ class FormsController {
             var send = req.query.send
             var userAgent = req.headers['user-agent']
             var host = req.headers['host']
+            var origin = req.headers['origin']
             const date = new Date()
             const dateOptions = {
                 year: 'numeric',
@@ -40,7 +41,8 @@ class FormsController {
                 date: currentDate,
                 time: currentTime,
                 agent: userAgent,
-                host: host
+                host: host,
+                origin: origin
             })
         } else {
             var answer = "Form working! Use POST and set query param. Example: /form?send=www.example.com"
@@ -51,6 +53,7 @@ class FormsController {
         var send = req.query.send
         var userAgent = req.headers['user-agent']
         var host = req.headers['host']
+        var origin = req.headers['origin']
         if (req.query.send) {
             var transporter = nodemailer.createTransport({
                 host: process.env.MAIL_HOST,
@@ -103,24 +106,22 @@ class FormsController {
                         <head>
                             <meta charset="utf-8">
                         </head>
-                        <h2>Данные клиента</h2>
+                        <h1>Данные клиента</h1>
                         <ul class="list-group">
                             <li>Имя: ${name}</li>
                             <li>Номер телефона: ${phone}</li>
+                            <p>Сообщение: ${message}</p>
                         </ul>
-                        <h3>Информация:</h3>
-                        <ul class="list-group">
-                            <li>Сообщение: ${message}</li>
-                        </ul>
-                        <h4>Доп.информация:</h4>
+                        <h2>Доп.информация:</h2>
                         <ul class="list-group">
                             <li>Дата: ${currentDate}</li>
                             <li>Время: ${currentTime}</li>
                         </ul>
-                        <h5>JSON.Headers</h5>
+                        <h3>JSON.Headers</h3>
                         <ul class="list-group">
                             <li>User-Agent: ${userAgent}</li>
                             <li>Host: ${host}</li>
+                            <li>Origin: ${origin}</li>
                         </ul>
                         `,
             };

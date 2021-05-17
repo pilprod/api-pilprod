@@ -56,6 +56,7 @@ class FormsController {
     async sendForms(req, res) {
         var send = req.query.send
         var userAgent = req.headers['user-agent']
+        var origin = req.headers['origin']
         if (req.query.send) {
             var transporter = nodemailer.createTransport({
                 host: process.env.MAIL_HOST,
@@ -115,7 +116,8 @@ class FormsController {
                             <p>Сообщение: ${message}</p>
                         </ul>
                         <h2>Доп.информация:</h2>
-                        <p>Дата отправки: ${currentDate} ${currentTime}<br>Отправлено с ${userAgent}</p>
+                        <p>Дата отправки: ${currentDate} ${currentTime}<br>Отправлено с <br>${userAgent}</p>
+                        <p>Origin: ${origin}</p>
                         `,
             };
             try {
