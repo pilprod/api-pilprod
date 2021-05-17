@@ -3,70 +3,38 @@ const nodemailer = require('nodemailer');
 
 class FormsController {
     getForms(req, res) {
-        if (req.query.send) {
-            var send = req.query.send
-            var userAgent = req.headers['user-agent']
-            const date = new Date()
-            const dateOptions = {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                // weekday: 'long' // День недели
-            };
-            if (send === 'ww2.pilprod.com') {
-                var toEmail = 'pilprod@yandex.ru'
-                var fromSubject = 'Заявка от ' + send
-                var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
-                var currentTime = date.toLocaleTimeString('ru-RU')
-            } else if (send === 'www.pilprod.com') {
-                var toEmail = 'contact@pilprod.com'
-                var fromSubject = 'Заявка от ' + send
-                var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
-                var currentTime = date.toLocaleTimeString('ru-RU')
-            } else if (send === 'www.technobox67.ru') {
-                var toEmail = 'technobox67@yandex.ru'
-                var fromSubject = 'Заявка от ' + send
-                var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
-                var currentTime = date.toLocaleTimeString('ru-RU')
-            } else {
-                return res
-                    .status(400)
-                    .send({ message: 'Bad request. Check value of "send"' })
-            }
+        if (req.query.send === mail) {
             return res.json({
                 POST: {
                     contacts: {
-                        name: 'Имя',
-                        phone: 'Номер телефона'
+                        name: 'string',
+                        phone: 'string'
                     },
-                    message: 'Сообщение'
-                },
-                sendToEmail: {
-                    email: toEmail,
-                    subject: fromSubject,
-                    date: currentDate + currentTime,
-                    agent: userAgent,
+                    message: 'string'
                 }
             })
         } else {
-            var answer = "Form working! Use POST and set query param. Example: /form?send=www.example.com"
+            var answer = "Example: GET /form?send=mail"
             return res.json({ message: answer })
         }
     };
     async sendForms(req, res) {
-        var send = req.query.send
-        var userAgent = req.headers['user-agent']
-        var origin = req.headers['origin']
-        if (req.query.send) {
-            var transporter = nodemailer.createTransport({
-                host: process.env.MAIL_HOST,
-                port: process.env.MAIL_PORT,
-                secure: process.env.MAIL_SECURE,
-                auth: {
-                    user: process.env.MAIL_AUTH_USER,
-                    pass: process.env.MAIL_AUTH_PASS,
-                },
-            });
+
+        var fromEmail = process.env.MAIL_FROM_NAME + process.env.MAIL_FROM_EMAIL
+
+        var transporter = nodemailer.createTransport({
+            host: process.env.MAIL_HOST,
+            port: process.env.MAIL_PORT,
+            secure: process.env.MAIL_SECURE,
+            auth: {
+                user: process.env.MAIL_AUTH_USER,
+                pass: process.env.MAIL_AUTH_PASS,
+            },
+        });
+        
+        if (req.query.send === mail) {
+            var origin = req.headers['origin']
+            var userAgent = req.headers['user-agent']
 
             var { name = '', phone = '' } = req.body.contacts
             var { message = '' } = req.body
@@ -79,26 +47,26 @@ class FormsController {
                 // weekday: 'long' // День недели
             };
 
-            var fromEmail = process.env.MAIL_FROM_NAME + process.env.MAIL_FROM_EMAIL
-            if (send === 'ww2.pilprod.com') {
+            if (origin === 'ww2.pilprod.com') {
                 var toEmail = 'pilprod@yandex.ru'
-                var fromSubject = 'Заявка от ' + send
+                var fromSubject = 'Заявка от ' + origin
                 var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
                 var currentTime = date.toLocaleTimeString('ru-RU')
-            } else if (send === 'www.pilprod.com') {
+            } else if (origin === 'www.pilprod.com') {
                 var toEmail = 'contact@pilprod.com'
-                var fromSubject = 'Заявка от ' + send
+                var fromSubject = 'Заявка от ' + origin
                 var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
                 var currentTime = date.toLocaleTimeString('ru-RU')
-            } else if (send === 'www.technobox67.ru') {
+            } else if (origin === 'www.technobox67.ru') {
                 var toEmail = 'technobox67@yandex.ru'
-                var fromSubject = 'Заявка от ' + send
+                var fromSubject = 'Заявка от ' + origin
                 var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
                 var currentTime = date.toLocaleTimeString('ru-RU')
             } else {
-                return res
-                    .status(400)
-                    .send({ message: 'Bad request. Check value of "send"' })
+                var toEmail = 'pilprod@yandex.ru'
+                var fromSubject = 'Тестовая заявка'
+                var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
+                var currentTime = date.toLocaleTimeString('ru-RU')
             }
 
             const mailOptions = {
@@ -116,8 +84,7 @@ class FormsController {
                             <p>Сообщение: ${message}</p>
                         </ul>
                         <h2>Доп.информация:</h2>
-                        <p>Дата отправки: ${currentDate} ${currentTime}<br>Отправлено с <br>${userAgent}</p>
-                        <p>Origin: ${origin}</p>
+                        <p>Дата отправки: ${currentDate} ${currentTime}<br>Отправлено с:<br>${userAgent}</p>
                         `,
             };
             try {
@@ -143,7 +110,7 @@ class FormsController {
         } else {
             return res
                 .status(400)
-                .send({ message: 'Bad request.' })
+                .send({ message: 'Error 400. Bad request.' })
         }
     };
 }
