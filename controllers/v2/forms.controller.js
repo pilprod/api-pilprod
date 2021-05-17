@@ -6,7 +6,6 @@ class FormsController {
         if (req.query.send) {
             var send = req.query.send
             var userAgent = req.headers['user-agent']
-            var host = req.headers['host']
             const date = new Date()
             const dateOptions = {
                 year: 'numeric',
@@ -35,12 +34,19 @@ class FormsController {
                     .send({ message: 'Bad request. Check value of "send"' })
             }
             return res.json({
-                email: toEmail,
-                subject: fromSubject,
-                date: currentDate,
-                time: currentTime,
-                agent: userAgent,
-                host: host
+                POST: {
+                    contacts: {
+                        name: 'Имя',
+                        phone: 'Номер телефона'
+                    },
+                    message: 'Сообщение'
+                },
+                sendToEmail: {
+                    email: toEmail,
+                    subject: fromSubject,
+                    date: currentDate + currentTime,
+                    agent: userAgent,
+                }
             })
         } else {
             var answer = "Form working! Use POST and set query param. Example: /form?send=www.example.com"
@@ -102,21 +108,14 @@ class FormsController {
                         <head>
                             <meta charset="utf-8">
                         </head>
-                        <h2>Данные клиента</h2>
+                        <h1>Данные клиента</h1>
                         <ul class="list-group">
                             <li>Имя: ${name}</li>
                             <li>Номер телефона: ${phone}</li>
+                            <p>Сообщение: ${message}</p>
                         </ul>
-                        <h3>Информация:</h3>
-                        <ul class="list-group">
-                            <li>Сообщение: ${message}</li>
-                        </ul>
-                        <h4>Доп.информация:</h4>
-                        <ul class="list-group">
-                            <li>Дата: ${currentDate}</li>
-                            <li>Время: ${currentTime}</li>
-                        </ul>
-                        <p>Заявка отправлена с устройства: ${userAgent}</p>
+                        <h2>Доп.информация:</h2>
+                        <p>Дата отправки: ${currentDate} ${currentTime}<br>Отправлено с ${userAgent}</p>
                         `,
             };
             try {
