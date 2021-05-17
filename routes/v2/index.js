@@ -5,7 +5,7 @@ const express = require('express'),
 router
     .route('/')
     .get((req, res) => {
-        var apiVersion = 'v1'
+        var apiVersion = 'v2'
         return res.status(200).send(`This is PILPROD API-service ${apiVersion}`)
     });
 

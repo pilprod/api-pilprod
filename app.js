@@ -9,7 +9,8 @@ var port = process.env.PORT
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// app.set('title', 'API PILPROD')
+app.set('title', 'API PILPROD')
+
 // app.use(function(req, res, next) {
 //     res.setHeader("Access-Control-Allow-Headers", "Accept, Accept-Language, Content-Type, X-Requested-With, Authorization, Origin");
 //     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -22,4 +23,4 @@ app.use('/', routes)
 
 app.use(express.static('public'));
 
-app.listen(port, host, () => console.log(`Приложение запущено. Адрес: http://${host}:${port}`));
+app.listen(port, host, () => console.log(`Приложение запущено. URL: http://${host}:${port}`));
