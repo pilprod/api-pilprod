@@ -44,17 +44,17 @@ class FormsController {
                 // weekday: 'long' // День недели
             };
 
-            if (origin === 'ww2.pilprod.com') {
+            if (origin === 'https://ww2.pilprod.com') {
                 var toEmail = 'pilprod@yandex.ru'
                 var fromSubject = 'Заявка от ' + origin
                 var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
                 var currentTime = date.toLocaleTimeString('ru-RU')
-            } else if (origin === 'www.pilprod.com') {
+            } else if (origin === 'https://www.pilprod.com') {
                 var toEmail = 'contact@pilprod.com'
                 var fromSubject = 'Заявка от ' + origin
                 var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
                 var currentTime = date.toLocaleTimeString('ru-RU')
-            } else if (origin === 'www.technobox67.ru') {
+            } else if (origin === 'https://www.technobox67.ru') {
                 var toEmail = 'technobox67@yandex.ru'
                 var fromSubject = 'Заявка от ' + origin
                 var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
