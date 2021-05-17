@@ -41,7 +41,7 @@ class FormsController {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
-                // weekday: 'long' // День недели
+                weekday: 'long' // День недели
             };
 
             if (origin === 'https://ww2.pilprod.com') {
@@ -84,8 +84,8 @@ class FormsController {
                             <p>Сообщение: ${message}</p>
                         </ul>
                         <h2>Доп.информация:</h2>
-                        <p>Дата отправки: ${currentDate} ${currentTime}<br>Отправлено с:</p>
-                        <p sryle="font-size: 50%;">${userAgent}</p>
+                        <p>Дата отправки: ${currentDate} ${currentTime}</p>
+                        <p>Данные об устройстве пользователя:<br>${userAgent}</p>
                         `,
             };
             try {
