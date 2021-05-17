@@ -4,8 +4,7 @@
     "description": "Сервисы API Express Node.JS (PILPROD)",
     "main": "app.js",
     "scripts": {
-        "start": "node -r dotenv/config app.js dotenv_config_path=.env",
-        "dev": "node -r dotenv/config app.js dotenv_config_path=.env.development.local",
+        "dev": "node -r dotenv/config app.js dotenv_config_path=.env",
         "production": "node -r dotenv/config app.js dotenv_config_path=production.env",
         "docker": "docker build . -t ghcr.io/pilprod/api-pilprod:latest && docker run --name api-pilprod -p 8080:8080 -d ghcr.io/pilprod/api-pilprod:latest",
         "push": "docker build . -t ghcr.io/pilprod/api-pilprod:latest && docker push ghcr.io/pilprod/api-pilprod:latest",
