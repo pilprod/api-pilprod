@@ -19,20 +19,17 @@ class FormsController {
         }
     };
     async sendForms(req, res) {
-
-        var fromEmail = process.env.MAIL_FROM_NAME + process.env.MAIL_FROM_EMAIL
-
-        var transporter = nodemailer.createTransport({
-            host: process.env.MAIL_HOST,
-            port: process.env.MAIL_PORT,
-            secure: process.env.MAIL_SECURE,
-            auth: {
-                user: process.env.MAIL_AUTH_USER,
-                pass: process.env.MAIL_AUTH_PASS,
-            },
-        });
-        
         if (req.query.send === 'mail') {
+            var fromEmail = process.env.MAIL_FROM_NAME + process.env.MAIL_FROM_EMAIL
+            var transporter = nodemailer.createTransport({
+                host: process.env.MAIL_HOST,
+                port: process.env.MAIL_PORT,
+                secure: process.env.MAIL_SECURE,
+                auth: {
+                    user: process.env.MAIL_AUTH_USER,
+                    pass: process.env.MAIL_AUTH_PASS,
+                },
+            });            
             var origin = req.headers['origin']
             var userAgent = req.headers['user-agent']
 
