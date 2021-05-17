@@ -5,7 +5,8 @@ class FormsController {
     getForms(req, res) {
         if (req.query.send) {
             var send = req.query.send
-
+            var userAgent = req.headers['user-agent']
+            var host = req.headers['host']
             const date = new Date()
             const dateOptions = {
                 year: 'numeric',
@@ -13,36 +14,43 @@ class FormsController {
                 day: 'numeric',
                 // weekday: 'long' // День недели
             };
-            if (send === 'www.pilprod.com') {
+            if (send === 'ww2.pilprod.com') {
+                var toEmail = 'pilprod@yandex.ru'
+                var fromSubject = 'Заявка от ' + send
+                var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
+                var currentTime = date.toLocaleTimeString('ru-RU')
+            } else if (send === 'www.pilprod.com') {
                 var toEmail = 'contact@pilprod.com'
-                var subject = 'Заявка от '
-                var newDate = date.toLocaleDateString('ru-RU', dateOptions)
-                var newTime = date.toLocaleTimeString('ru-RU')
+                var fromSubject = 'Заявка от ' + send
+                var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
+                var currentTime = date.toLocaleTimeString('ru-RU')
             } else if (send === 'www.technobox67.ru') {
                 var toEmail = 'technobox67@yandex.ru'
-                var subject = 'Заявка от '
-                var newDate = date.toLocaleDateString('ru-RU', dateOptions)
-                var newTime = date.toLocaleTimeString('ru-RU')
+                var fromSubject = 'Заявка от ' + send
+                var currentDate = date.toLocaleDateString('ru-RU', dateOptions)
+                var currentTime = date.toLocaleTimeString('ru-RU')
             } else {
                 return res
                     .status(400)
                     .send({ message: 'Bad request. Check value of "send"' })
             }
-            var answer = 'Use POST!'
             return res.json({
-                // message: answer,
                 email: toEmail,
-                subject: subject,
-                date: newDate,
-                time: newTime
+                subject: fromSubject,
+                date: currentDate,
+                time: currentTime,
+                agent: userAgent,
+                host: host
             })
         } else {
-            var answer = 'Forms Works!!!'
+            var answer = "Form working! Use POST and set query param. Example: /form?send=www.example.com"
             return res.json({ message: answer })
         }
     };
     async sendForms(req, res) {
         var send = req.query.send
+        var userAgent = req.headers['user-agent']
+        var host = req.headers['host']
         if (req.query.send) {
             var transporter = nodemailer.createTransport({
                 host: process.env.MAIL_HOST,
@@ -108,6 +116,11 @@ class FormsController {
                         <ul class="list-group">
                             <li>Дата: ${currentDate}</li>
                             <li>Время: ${currentTime}</li>
+                        </ul>
+                        <h5>JSON.Headers</h5>
+                        <ul class="list-group">
+                            <li>User-Agent: ${userAgent}</li>
+                            <li>Host: ${host}</li>
                         </ul>
                         `,
             };
